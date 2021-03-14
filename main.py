@@ -10,107 +10,91 @@ day = 30
 week = 4
 month = 1
 
-bulb = {
-    "name": "Light bulb",
-    "type": {
-        "incandescent": 60,
-        "fluorescent": 13,
-        "small neon": 17,
-        "short neon": 28,
-        "long neon": 46,
-    }
-}
+class Electrical_dict:
+    def __init__(self, name, typeDict):
+        self.name = name
+        self.typeDict = typeDict
 
-fan = {
-    "name": "Fan",
-    "type": {
-        "small": 45,
-        "medium": 60,
-        "large": 75
-    }
-}
+    def __repr__(self):
+        return str(self.name)
 
-riceCooker = {
-    "name": "riceCooker",
-    "type": {
-        "0.5L": 300,
-        "1L": 450,
-        "1.5L": 520,
-        "2.5L": 1100,
-        "4L": 1400
-    }
-}
+    def printTypeList(self) :
+        for index, elec in enumerate(self.typeDict) :
+            print(f"({index}) {elec}")
+        print("(cancel) to stop")
 
-TV = {
-    "name": "TV",
-    "type": {
-        "14 inch": 60,
-        "21 inch": 110,
-        "30 inch": 200
-    }
-}
 
-iron = {
-    "name": "iron",
-    "type": {
-        "normal": 1000,
-        "steam": 1700
-    }
-}
+class Electrical:
+    def __init__(self, name, watt):
+        self.name = name
+        self.watt = watt
 
-airCondition = {
-    "name": "airCondition",
-    "type": {
-        "12000 BTU": 1000,
-        "18000 BTU": 2000,
-        "24000 BTU": 2500
-    }
-}
+    def __repr__(self):
+        return str(self.name)
 
-other = {
-    "name": "Other",
-    "type": {
-        "hot pot": 3500,
-        "refrigerator": 100,
-        "water heater": 3500,
-        "washing machine": 1000,
-        "toaster": 850,
-        "computer": 300,
-        "DVD player": 40,
-        "vacuum": 800,
-        "microwave": 1000,
-        "air fryer": 1200,
-        "electric pan": 1000
-    }
-}
+    def getWatt(self):
+        print('------------------------------------------------------')
+        print(f"{self.name} has {self.watt} watts!")
+        print('------------------------------------------------------')
+        return self.watt
 
-electrical_list = [bulb, fan, riceCooker, TV, iron, airCondition, other]
+electrical_list = [
+    Electrical_dict("Light bulb", [
+        Electrical("incandescent", 60),
+        Electrical("fluorescent", 13),
+        Electrical("small neon", 17),
+        Electrical("short neon", 28),
+        Electrical("long neon", 46)
+    ]),
+    Electrical_dict("Fan", [
+        Electrical("small", 45),
+        Electrical("medium", 60),
+        Electrical("large", 75)
+    ]),
+    Electrical_dict("Rice Cooker", [
+        Electrical("0.5L", 300),
+        Electrical("1L", 450),
+        Electrical("1.5L", 520),
+        Electrical("2.5L", 1100),
+        Electrical("4L", 1400)
+    ]),
+    Electrical_dict("TV", [
+        Electrical("14 inch", 60),
+        Electrical("21 inch", 110),
+        Electrical("30 inch", 200)
+    ]),
+    Electrical_dict("Iron", [
+        Electrical("normal", 1000),
+        Electrical("steam", 1700),
+    ]),
+    Electrical_dict("Air Condition", [
+        Electrical("12000 BTU", 1000),
+        Electrical("18000 BTU", 2000),
+        Electrical("24000 BTU", 2500),
+    ]),
+    Electrical("hot pot", 3500),
+    Electrical("refrigerator", 100),
+    Electrical("water heater", 3500),
+    Electrical("washing machine", 1000),
+    Electrical("toaster", 850),
+    Electrical("computer", 300),
+    Electrical("DVD player", 40),
+    Electrical("vacuum", 800),
+    Electrical("microwave", 1000),
+    Electrical("air fryer", 1200),
+    Electrical("electric pan", 1000)
+]
+def print_Electrical_List() :
+    for index, elec in enumerate(electrical_list) :
+        print(f"({index}) {elec}")
+    print("(cancel) to stop")
 
-def printElectrical_list() :
-    index = 0
-    for e1 in electrical_list :
-        if e1 is not None :
-            if e1.get("name") is not "Other" :
-                print("(" + str(index) + ") " + e1.get("name"))
-            else :
-                for e2 in e1.get("type").keys() :
-                    print("(" + str(index) + ") " + e2)
-                    index+=1
-        index += 1
-
-def getWattFunc (selector) :
-    dataDict = electrical_list[int(selector)]
-    print("Please select your electrical type")
-    index = 0
-    for e in dataDict.get("type").keys() :
-        print("("+ str(index) + ") " + e)
-        index+=1
-    type_list = dataDict.get("type")
-    selectType = int(input("electrical type : "))
-    if selectType < len(type_list.keys()) and selectType >= 0:
-        return type_list[list(type_list.keys())[selectType]]
-    else :
-        return "type error!"
+def inputOk(inputt) :
+    try :
+        int(inputt)
+        return True
+    except :
+        return True if inputt == "cancel" else False
 
 def calc_Bill(totalUnit):
         if(totalUnit>0 and totalUnit<=15):
@@ -173,20 +157,37 @@ while True  :
         print('------------------------------------')
         print('************************************')
         print('SELECT ELECTRICAL FROM FOLLOWING OPTIONS:\n')
-        printElectrical_list()
-        Elec = int(input())
+        print_Electrical_List()
+        Elec = input("id : ")
         print('************************************')
         print('------------------------------------')
-        print()
-        # valid_Elec = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','stop']
-        # Elec = Elec.lower()
-
-        while Elec != 'stop':
+        while not inputOk(Elec) :
+            print('Valid input!')
+            Elec = input("id : ")
+        
+        while Elec != "cancel":
+            Elec = int(Elec)
             if Elec < len(electrical_list) and Elec >= 0:
-                watt = getWattFunc(Elec)
-                while type(watt) == str :
-                    watt = getWattFunc(Elec)
-                print(str(watt) + " watt")
+                electrical = electrical_list[Elec]
+                watt = 0
+                if type(electrical) is Electrical_dict :
+                    print('************************************')
+                    print('SELECT ELECTRICAL TYPE FROM FOLLOWING OPTIONS:\n')
+                    print('************************************')
+                    electrical.printTypeList()
+                    selectedType = int(input("id : "))
+                    typeList = electrical.typeDict
+                    while selectedType >= len(typeList) and selectedType < 0 :
+                        print("This number does not match any Electrical!")
+                        selectedType = int(input("id : "))
+                    watt = typeList[selectedType].getWatt()
+
+                elif type(electrical) is Electrical :
+                    watt = electrical.getWatt()
+                else :
+                    print("This element is not a Electrical!")
+                    continue
+
                 time = int(input('Enter Amount of time spent : '))
                 freq = input('Select Frequency used by following : \n(1).Day \n(2).Week \n(3).month \n:')
                 if freq == '1':
@@ -209,8 +210,8 @@ while True  :
                 if add == 'y':
                     print('************************************')
                     print('SELECT ELECTRICAL FROM FOLLOWING OPTIONS:\n')
-                    printElectrical_list()
-                    Elec = int(input())
+                    print_Electrical_List()
+                    Elec = int(input("id : "))
                     print('************************************')
                 elif add == 'n':
                     calc_Bill(totalUnit)
@@ -226,8 +227,8 @@ while True  :
                 print('TRY AGAIN !!!!')
                 print('------------------------------------')
                 print('SELECT ELECTRICAL FROM FOLLOWING OPTIONS:\n')
-                printElectrical_list()
-                Elec = int(input())
+                print_Electrical_List()
+                Elec = int(input("id : "))
                 print('------------------------------------')
                 print()
         
