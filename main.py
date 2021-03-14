@@ -33,7 +33,6 @@ class Electrical:
         return str(self.name)
 
     def getWatt(self):
-        print('------------------------------------------------------')
         print(f"{self.name} has {self.watt} watts!")
         print('------------------------------------------------------')
         return self.watt
@@ -84,6 +83,7 @@ electrical_list = [
     Electrical("air fryer", 1200),
     Electrical("electric pan", 1000)
 ]
+
 def print_Electrical_List() :
     for index, elec in enumerate(electrical_list) :
         print(f"({index}) {elec}")
@@ -96,94 +96,98 @@ def inputOk(inputt) :
     except :
         return True if inputt == "cancel" else False
 
+def topicPrint(msg) :
+    print('------------------------------------')
+    print('************************************')
+    print(msg)
+    print('************************************')
+    print('------------------------------------')
+
+def inputTopicPrint(msg) :
+    print('------------------------------------')
+    print('************************************')
+    keyboardInput = input(msg).lower()
+    print('************************************')
+    print('------------------------------------')
+    return keyboardInput
+
+def printBill(pay) :
+    print('------------------------------------------------------')
+    print("Electricity bill pay :[ %.2f ]" %pay ," Bath.")
+    print('------------------------------------------------------')
+
 def calc_Bill(totalUnit):
         if(totalUnit>0 and totalUnit<=15):
             pay = totalUnit*2.3488
-            print('------------------------------------------------------')
-            print("Electricity bill pay :[ %.2f ]" %pay ," Bath.");
-            print('------------------------------------------------------')
+            printBill(pay)
       
         elif(totalUnit>15 and totalUnit<=25):
             pay = (15*2.3488)+(totalUnit-15)*2.9882
-            print('------------------------------------------------------')
-            print("Electricity bill pay :[ %.2f ]" %pay ," Bath.");
-            print('------------------------------------------------------')
+            printBill(pay)
       
         elif(totalUnit>25 and totalUnit<=35):
             pay = (15*2.3488)+((25-15)*2.9882)+(totalUnit-25)*3.2405
-            print('------------------------------------------------------')
-            print("Electricity bill pay :[ %.2f ]" %pay ," Bath.");
-            print('------------------------------------------------------')
+            printBill(pay)
 
         elif(totalUnit>35 and totalUnit<=100):
             pay = (15*2.3488)+((25-15)*2.9882)+((35-25)*3.2405)+(totalUnit-35)*3.6237
-            print('------------------------------------------------------')
-            print("Electricity bill pay :[ %.2f ]" %pay ," Bath.");
-            print('------------------------------------------------------')
+            printBill(pay)
 
         elif(totalUnit>100 and totalUnit<=150):
             pay = (15*2.3488)+((25-15)*2.9882)+((35-25)*3.2405)+((100-35)*3.6237)+(totalUnit-100)*3.7171
-            print('------------------------------------------------------')
-            print("Electricity bill pay :[ %.2f ]" %pay ," Bath.");
-            print('------------------------------------------------------')
+            printBill(pay)
 
         elif(totalUnit>150 and totalUnit<=400):
             pay = (15*2.3488)+((25-15)*2.9882)+((35-25)*3.2405)+((100-35)*3.6237)+((150-100)*3.7171)+(totalUnit-150)*4.2218
-            print('------------------------------------------------------')
-            print("Electricity bill pay :[ %.2f ]" %pay ," Bath.");
-            print('------------------------------------------------------')
+            printBill(pay)
      
         elif(totalUnit>400):
             pay =(15*2.3488)+((25-15)*2.9882)+((35-25)*3.2405)+((100-35)*3.6237)+((150-100)*3.7171)+(totalUnit-400)*4.4217
-            print('------------------------------------------------------')
-            print("Electricity bill pay :[ %.2f ]" %pay ," Bath.");
-            print('------------------------------------------------------')
+            printBill(pay)
        
         else:
-            print('------------------------------------------------------')
-            print("Electricity bill pay :[ %.2f ]" %pay ," Bath.");
-            print('------------------------------------------------------')
+            printBill(pay)
 
 while True  :
-    print('------------------------------------')
-    print('************************************')
-    selected = input('SELECT MENU FROM FOLLOWING OPTIONS: \nChoose Electrical appliances_______(E)  \nQuit_______________________________(Q) \n: ').lower()
-    print('************************************')
-    print('------------------------------------')
-    print()
+    selected = inputTopicPrint('SELECT MENU FROM FOLLOWING OPTIONS: \nChoose Electrical appliances_______(E)  \nQuit_______________________________(Q) \n: ')
     valid_selected = ['e','q']
-    selected = selected.lower()
     if selected == 'e':
-        print('------------------------------------')
-        print('************************************')
         print('SELECT ELECTRICAL FROM FOLLOWING OPTIONS:\n')
         print_Electrical_List()
-        Elec = input("id : ")
-        print('************************************')
-        print('------------------------------------')
+        
+        Elec = inputTopicPrint("id : ")
+
         while not inputOk(Elec) :
             print('Valid input!')
             Elec = input("id : ")
-        
+
         while Elec != "cancel":
             Elec = int(Elec)
             if Elec < len(electrical_list) and Elec >= 0:
                 electrical = electrical_list[Elec]
                 watt = 0
                 if type(electrical) is Electrical_dict :
-                    print('************************************')
                     print('SELECT ELECTRICAL TYPE FROM FOLLOWING OPTIONS:\n')
-                    print('************************************')
+
                     electrical.printTypeList()
-                    selectedType = int(input("id : "))
+                    selectedType = inputTopicPrint("id : ")
+
+                    while not inputOk(selectedType) and selectedType!="cancel" :
+                        print('Valid input!')
+                        selectedType = input("id : ")
+
+                    selectedType = int(selectedType)
                     typeList = electrical.typeDict
+
                     while selectedType >= len(typeList) and selectedType < 0 :
                         print("This number does not match any Electrical!")
                         selectedType = int(input("id : "))
+
                     watt = typeList[selectedType].getWatt()
 
                 elif type(electrical) is Electrical :
                     watt = electrical.getWatt()
+
                 else :
                     print("This element is not a Electrical!")
                     continue
