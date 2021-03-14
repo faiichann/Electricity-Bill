@@ -113,37 +113,47 @@ def inputTopicPrint(msg) :
     return keyboardInput
 
 def printBill(pay) :
-    print('------------------------------------------------------')
     print("Electricity bill pay :[ %.2f ]" %pay ," Bath.")
     print('------------------------------------------------------')
+
+def printnit(totalUnit) :
+    print('------------------------------------------------------')
+    print("Total number of units you have selected is :[ %.2f ]" %totalUnit ," Unit.")
 
 def calc_Bill(totalUnit):
         if(totalUnit>0 and totalUnit<=15):
             pay = totalUnit*2.3488
+            printnit(totalUnit)
             printBill(pay)
       
         elif(totalUnit>15 and totalUnit<=25):
             pay = (15*2.3488)+(totalUnit-15)*2.9882
+            printnit(totalUnit)
             printBill(pay)
       
         elif(totalUnit>25 and totalUnit<=35):
             pay = (15*2.3488)+((25-15)*2.9882)+(totalUnit-25)*3.2405
+            printnit(totalUnit)
             printBill(pay)
 
         elif(totalUnit>35 and totalUnit<=100):
             pay = (15*2.3488)+((25-15)*2.9882)+((35-25)*3.2405)+(totalUnit-35)*3.6237
+            printnit(totalUnit)
             printBill(pay)
 
         elif(totalUnit>100 and totalUnit<=150):
             pay = (15*2.3488)+((25-15)*2.9882)+((35-25)*3.2405)+((100-35)*3.6237)+(totalUnit-100)*3.7171
+            printnit(totalUnit)
             printBill(pay)
 
         elif(totalUnit>150 and totalUnit<=400):
             pay = (15*2.3488)+((25-15)*2.9882)+((35-25)*3.2405)+((100-35)*3.6237)+((150-100)*3.7171)+(totalUnit-150)*4.2218
+            printnit(totalUnit)
             printBill(pay)
      
         elif(totalUnit>400):
             pay =(15*2.3488)+((25-15)*2.9882)+((35-25)*3.2405)+((100-35)*3.6237)+((150-100)*3.7171)+(totalUnit-400)*4.4217
+            printnit(totalUnit)
             printBill(pay)
        
         else:
@@ -214,7 +224,9 @@ while True  :
                     freq = input('Select Frequency used by following : \n(1).Day \n(2).Week \n(3).month')
 
                 unit = (watt * allTime)*0.001
-                print(unit)
+                print('----------------------') 
+                print('It is [',unit,'] Unit.')
+                print('----------------------') 
                 totalUnit += unit
             
                 add = input('Add more electrical : \n(Y).Yes \n(N).No \n :').lower()
