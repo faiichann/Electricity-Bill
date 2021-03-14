@@ -87,14 +87,15 @@ electrical_list = [
 def print_Electrical_List() :
     for index, elec in enumerate(electrical_list) :
         print(f"({index}) {elec}")
-    print("(cancel) to stop")
+    print("(cancel) to cancel all bill")
+    print("(cal) to calculate all bill")
 
 def inputOk(inputt) :
     try :
         int(inputt)
         return True
     except :
-        return True if inputt == "cancel" else False
+        return True if inputt == "cancel" or inputt == "cal" else False
 
 def topicPrint(msg) :
     print('------------------------------------')
@@ -146,22 +147,26 @@ def calc_Bill(totalUnit):
             printBill(pay)
        
         else:
-            printBill(pay)
+            printBill(0)
 
 while True  :
     selected = inputTopicPrint('SELECT MENU FROM FOLLOWING OPTIONS: \nChoose Electrical appliances_______(E)  \nQuit_______________________________(Q) \n: ')
     valid_selected = ['e','q']
     if selected == 'e':
-        print('SELECT ELECTRICAL FROM FOLLOWING OPTIONS:\n')
-        print_Electrical_List()
-        
-        Elec = inputTopicPrint("id : ")
-
-        while not inputOk(Elec) :
-            print('Valid input!')
-            Elec = input("id : ")
-
+        Elec = "temp"
         while Elec != "cancel":
+            print('SELECT ELECTRICAL FROM FOLLOWING OPTIONS:\n')
+            print_Electrical_List()
+        
+            Elec = inputTopicPrint("id : ")
+
+            while not inputOk(Elec) :
+                print('Valid input!')
+                Elec = input("id : ")
+
+            if Elec == "cancel" or  Elec == "cal":
+                break
+
             Elec = int(Elec)
             if Elec < len(electrical_list) and Elec >= 0:
                 electrical = electrical_list[Elec]
@@ -172,9 +177,12 @@ while True  :
                     electrical.printTypeList()
                     selectedType = inputTopicPrint("id : ")
 
-                    while not inputOk(selectedType) and selectedType!="cancel" :
+                    while not inputOk(selectedType) :
                         print('Valid input!')
                         selectedType = input("id : ")
+
+                    if selectedType == "cancel" :
+                        continue
 
                     selectedType = int(selectedType)
                     typeList = electrical.typeDict
@@ -212,11 +220,8 @@ while True  :
                 add = input('Add more electrical : \n(Y).Yes \n(N).No \n :').lower()
                 print('************************************')
                 if add == 'y':
-                    print('************************************')
-                    print('SELECT ELECTRICAL FROM FOLLOWING OPTIONS:\n')
-                    print_Electrical_List()
-                    Elec = int(input("id : "))
-                    print('************************************')
+                    continue
+
                 elif add == 'n':
                     calc_Bill(totalUnit)
                     totalUnit = 0 
@@ -236,7 +241,7 @@ while True  :
                 print('------------------------------------')
                 print()
         
-        if Elec == 'stop':
+        if Elec == 'cal':
             calc_Bill(totalUnit)
             totalUnit = 0 
 
