@@ -235,11 +235,7 @@ while True  :
             else :
                 print('TRY AGAIN !!!!')
                 print('------------------------------------')
-                print('SELECT ELECTRICAL FROM FOLLOWING OPTIONS:\n')
-                print_Electrical_List()
-                Elec = int(input("id : "))
-                print('------------------------------------')
-                print()
+                continue
         
         if Elec == 'cal':
             calc_Bill(totalUnit)
